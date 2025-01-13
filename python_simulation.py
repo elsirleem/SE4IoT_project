@@ -79,7 +79,11 @@ def publish_sensor_data():
             # Publish data to MQTT and check for alerts
             for metric, value in data.items():
                 topic = f"/smart_city/traffic/{location}/{metric}"
-                payload = json.dumps({"timestamp": int(time.time()), "value": value})
+                payload = json.dumps({
+                    "timestamp": int(time.time()),
+                    "location": location,
+                    f"{metric}": value
+                })
                 client.publish(topic, payload)
                 print(f"Published to {topic}: {payload}")
 
