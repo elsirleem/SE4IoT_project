@@ -10,7 +10,7 @@ services:
       - DOCKER_INFLUXDB_INIT_MODE=setup
       - DOCKER_INFLUXDB_INIT_USERNAME=admin
       - DOCKER_INFLUXDB_INIT_PASSWORD=admin123
-      - DOCKER_INFLUXDB_INIT_ORG=my_org
+      - DOCKER_INFLUXDB_INIT_ORG=iot_project
       - DOCKER_INFLUXDB_INIT_BUCKET=smart_city
       - DOCKER_INFLUXDB_INIT_RETENTION=30d
 
@@ -20,7 +20,7 @@ services:
     ports:
       - "1880:1880"
     volumes:
-      - node_red_data:/data
+      - ./iot_project_nodered/data:/data
     environment:
       - TZ=UTC
 
@@ -32,7 +32,7 @@ services:
       - "9002:9001" # WebSocket support
     volumes:
       - mosquitto_data:/mosquitto/data
-      - mosquitto_config:/mosquitto/config
+      - ./iot_project_mosquitto_config/mosquitto.conf:/mosquitto/config/mosquitto.conf
 
   grafana:
     image: grafana/grafana:latest
@@ -47,7 +47,5 @@ services:
 
 volumes:
   influxdb_data:
-  node_red_data:
-  mosquitto_data:
-  mosquitto_config:
   grafana_data:
+  mosquitto_data:
