@@ -2,24 +2,30 @@ import random
 import time
 import json
 import paho.mqtt.client as mqtt
-from mqtt_config import BROKER, PORT, BASE_TOPIC, ALERT_TOPIC, PUBLISH_INTERVAL
+import configparser
+
+# Load configuration
+config = configparser.ConfigParser()
+config.read('config.ini')
 
 # MQTT Client Setup
 client = mqtt.Client()
-client.connect(BROKER, PORT, 60)
+client.connect(config['mqtt']['broker'], 
+              int(config['mqtt']['port']), 
+              60)
 
 # Locations for simulation
-LOCATIONS = ["location1", "location2", "location3"]
+LOCATIONS = config['locations']['locations'].split(',')
 
 # Thresholds for Alerts
 THRESHOLDS = {
-    "traffic_density": 80,
-    "average_speed": 25,  # Minimum speed
-    "co2": 400,
-    "pm25": 35,
-    "pm10": 50,
-    "decibel_level": 85,
-    "co": 3.5
+    "traffic_density": int(config['thresholds']['traffic_density']),
+    "average_speed": int(config['thresholds']['average_speed']),
+    "co2": int(config['thresholds']['co2']),
+    "pm25": int(config['thresholds']['pm25']),
+    "pm10": int(config['thresholds']['pm10']),
+    "decibel_level": int(config['thresholds']['decibel_level']),
+    "co": int(config['thresholds']['co'])
 }
 
 # Sensor Simulation Functions
@@ -59,8 +65,8 @@ def publish_alert(metric, value, location):
             "current_value": value
         }
     }
-    client.publish(ALERT_TOPIC, json.dumps(alert_payload))
-    print(f"ALERT Published to {ALERT_TOPIC}: {alert_payload}")
+    client.publish(config['mqtt']['alert_topic'], json.dumps(alert_payload))
+    print(f"ALERT Published to {config['mqtt']['alert_topic']}: {alert_payload}")
 
 # Main Function to Simulate and Publish Data
 def publish_sensor_data():
@@ -78,7 +84,7 @@ def publish_sensor_data():
             }
             # Publish data to MQTT and check for alerts
             for metric, value in data.items():
-                topic = f"{BASE_TOPIC}/{location}/{metric}"
+                topic = f"{config['mqtt']['base_topic']}/{location}/{metric}"
                 payload = json.dumps({f"{metric}": value})
                 client.publish(topic, payload)
 
@@ -88,7 +94,7 @@ def publish_sensor_data():
                 if metric in THRESHOLDS and value > THRESHOLDS[metric]:
                     publish_alert(metric, value, location)
         
-        time.sleep(PUBLISH_INTERVAL)
+        time.sleep(int(config['mqtt']['publish_interval']))
 
 if __name__ == "__main__":
     try:

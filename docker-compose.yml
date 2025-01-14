@@ -58,6 +58,15 @@ services:
     volumes:
       - grafana_data:/var/lib/grafana
 
+  traffic-simulator:
+    build: 
+      context: ./traffic_simulator
+      dockerfile: Dockerfile
+    container_name: traffic-simulator
+    depends_on:
+      - mqtt-broker
+    restart: always
+
 volumes:
   influxdb_data:
   grafana_data:
