@@ -5,14 +5,13 @@ This project is a simulated IoT system designed to manage urban traffic and moni
 
 ## Features
 - Simulates environmental metrics like traffic density, speed, CO2, PM2.5, PM10, and noise levels.
-- Processes data using Node-RED and publishes threshold-based alerts.
+- Processes data using Telegraf for data collection and transformation.
 - Stores time-series data in InfluxDB for long-term analysis.
 - Visualizes data in Grafana with customizable dashboards.
-- Fully containerized for seamless deployment using Docker Compose.
+- Fully containerized deployment using Docker Compose.
 
 ## Prerequisites
 - Docker and Docker Compose installed on your system.
-- Python (for running simulation scripts).
 
 ## Setup Instructions
 
@@ -23,63 +22,61 @@ cd <repository_name>
 ```
 
 ### Step 2: Start Docker Services
-Run the following command to start all services (InfluxDB, Node-RED, Mosquitto MQTT broker, and Grafana):
+Run the following command to start all services (Traffic Simulator, InfluxDB, Telegraf, MQTT broker, and Grafana):
 ```bash
-docker-compose up -d
-```
-Verify the services are running:
-```bash
-docker ps
+docker compose up --build
 ```
 
-### Step 3: Run the Sensor Simulation
-Navigate to the simulation script directory and run the Python script:
+To completely clean up when stopping (removes containers, local images, and volumes):
 ```bash
-python sensor_simulation.py
+docker compose down --volumes --rmi local
 ```
-Ensure the script publishes data to the MQTT broker.
 
-### Step 4: Access the Services
-- **Node-RED**: [http://localhost:1880](http://localhost:1880)
+### Step 3: Access the Services
 - **Grafana**: [http://localhost:3000](http://localhost:3000)
   - Default Username: `admin`
   - Default Password: `admin`
+- **InfluxDB**: [http://localhost:8086](http://localhost:8086)
+  - Default Username: `admin`
+  - Default Password: `admin123`
+- **Node-RED**: [http://localhost:1880](http://localhost:1880)
 
-### Step 5: Configure Grafana
-1. Log in to Grafana.
-2. Add InfluxDB as a data source:
-   - **URL**: `http://influxdb:8086`
-   - **Database**: `smart_city`
-3. Create dashboards to visualize metrics.
-
-## Docker Compose Configuration
-The `docker-compose.yml` file includes the following services:
-- **InfluxDB**: Stores time-series data.
-- **Node-RED**: Processes data and publishes alerts.
-- **Mosquitto MQTT Broker**: Handles messaging between components.
-- **Grafana**: Visualizes data from InfluxDB.
-
-## File Structure
+## Project Structure
 ```
-|-- docker-compose.yml      # Docker Compose configuration
-|-- sensor_simulation.py    # Python script for simulating sensor data
-|-- mqtt_config.py          # MQTT configuration file
-|-- README.md               # Project documentation
+.
+├── compose.yml              # Docker Compose configuration
+├── traffic_simulator/       # Traffic simulation service
+│   ├── config.ini          # Simulation configuration
+│   ├── Dockerfile          # Python simulation container setup
+│   └── python_simulation.py # Main simulation script
+├── telegraf/               # Telegraf service
+│   └── telegraf.conf       # Telegraf configuration
+└── grafana/                # Grafana service
+    └── grafana.db          # Grafana database with dashboards
 ```
 
-## Future Enhancements
-- Add authentication and encryption for MQTT and InfluxDB.
-- Implement machine learning models for traffic prediction.
-- Integrate additional environmental sensors.
+## Configuration
+### Simulation Parameters (config.ini)
+- MQTT broker settings
+- Traffic and environmental thresholds
+- Monitoring locations
+- Publishing intervals
+
+### Data Collection (telegraf.conf)
+- MQTT subscription topics
+- InfluxDB output settings
+- Data processing rules
 
 ## Troubleshooting
-### Common Issues
-- **MQTT Connection Error**:
-  - Ensure the Mosquitto broker is running and the simulation script points to the correct broker address.
-- **InfluxDB Write Error**:
-  - Verify the database exists and the data format matches InfluxDB requirements.
-- **Grafana Connection Issue**:
-  - Check the InfluxDB URL in the data source configuration.
+- If the services don't start properly, check Docker logs:
+  ```bash
+  docker compose logs
+  ```
+- For specific service logs:
+  ```bash
+  docker compose logs [service_name]
+  ```
+  where [service_name] can be: traffic-simulator, telegraf, influxdb, mqtt-broker, or grafana
 
 ## License
-This project is licensed under the MIT License.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
