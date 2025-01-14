@@ -1,18 +1,16 @@
 import random
 import time
 import json
-import paho.mqtt.client as mqtt
 import configparser
+import paho.mqtt.client as mqtt
 
 # Load configuration
 config = configparser.ConfigParser()
 config.read('config.ini')
 
 # MQTT Client Setup
-client = mqtt.Client()
-client.connect(config['mqtt']['broker'], 
-              int(config['mqtt']['port']), 
-              60)
+client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
+client.connect(config['mqtt']['broker'], int(config['mqtt']['port']), 60)
 
 # Locations for simulation
 LOCATIONS = config['locations']['locations'].split(',')
@@ -25,7 +23,7 @@ THRESHOLDS = {
     "pm25": int(config['thresholds']['pm25']),
     "pm10": int(config['thresholds']['pm10']),
     "decibel_level": int(config['thresholds']['decibel_level']),
-    "co": int(config['thresholds']['co'])
+    "co": float(config['thresholds']['co'])
 }
 
 # Sensor Simulation Functions
@@ -66,7 +64,7 @@ def publish_alert(metric, value, location):
         }
     }
     client.publish(config['mqtt']['alert_topic'], json.dumps(alert_payload))
-    print(f"ALERT Published to {config['mqtt']['alert_topic']}: {alert_payload}")
+    #print(f"ALERT Published to {config['mqtt']['alert_topic']}: {alert_payload}")
 
 # Main Function to Simulate and Publish Data
 def publish_sensor_data():
@@ -88,7 +86,7 @@ def publish_sensor_data():
                 payload = json.dumps({f"{metric}": value})
                 client.publish(topic, payload)
 
-                #print(f"Published to {topic}: {payload}")
+                print(f"Published to {topic}: {payload}")
 
                 # Check for critical levels
                 if metric in THRESHOLDS and value > THRESHOLDS[metric]:

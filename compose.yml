@@ -65,9 +65,7 @@ services:
     container_name: traffic-simulator
     depends_on:
       - mqtt-broker
-    restart: always
-
+      
 volumes:
   influxdb_data:
-  grafana_data:
   mosquitto_data:

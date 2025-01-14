@@ -2,6 +2,9 @@ FROM python:3.12-slim
 
 WORKDIR /app
 
+# Set Python to run in unbuffered mode
+ENV PYTHONUNBUFFERED=1
+
 # Install dependencies
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
@@ -10,4 +13,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY python_simulation.py .
 COPY config.ini .
 
-CMD ["python", "python_simulation.py"]
+CMD ["python", "-u", "python_simulation.py"]
