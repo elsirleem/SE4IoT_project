@@ -58,7 +58,7 @@
         "type": "mqtt in",
         "z": "c6edea553c6666e4",
         "name": "",
-        "topic": "/smart_city/traffic/#",
+        "topic": "smart_city/traffic/#",
         "qos": "0",
         "datatype": "json",
         "broker": "ab8bd6a7f68ee52f",
@@ -71,8 +71,7 @@
         "wires": [
             [
                 "a753add5c0138e5e",
-                "4f0e7b5b3fc4a498",
-                "55117caf3633c36a"
+                "4f0e7b5b3fc4a498"
             ]
         ]
     },
@@ -81,7 +80,7 @@
         "type": "debug",
         "z": "c6edea553c6666e4",
         "name": "display_sensor_data",
-        "active": false,
+        "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -147,24 +146,6 @@
         "statusType": "auto",
         "x": 580,
         "y": 560,
-        "wires": []
-    },
-    {
-        "id": "55117caf3633c36a",
-        "type": "influxdb out",
-        "z": "c6edea553c6666e4",
-        "influxdb": "ea5932f09d848fc6",
-        "name": "influxdb",
-        "measurement": "traffic_data",
-        "precision": "",
-        "retentionPolicy": "",
-        "database": "database",
-        "precisionV18FluxV20": "ms",
-        "retentionPolicyV18Flux": "",
-        "org": "iot_project",
-        "bucket": "smart_city",
-        "x": 600,
-        "y": 120,
         "wires": []
     }
 ]
