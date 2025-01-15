@@ -48,23 +48,23 @@ def simulate_decibel_level():
 def simulate_co():
     return round(random.uniform(0.5, 5.0), 2)
 
-# Publish Critical Alert
-def publish_alert(metric, value, location):
-    alert_payload = {
-        "metric": metric,
-        "value": value,
-        "location": location,
-        "timestamp": int(time.time()),
-        "message": f"Critical {metric} level detected at {location}: {value}",
-        "details": {
-            "component": metric,
-            "location": location,
-            "threshold_exceeded": THRESHOLDS[metric],
-            "current_value": value
-        }
-    }
-    client.publish(config['mqtt']['alert_topic'], json.dumps(alert_payload))
-    #print(f"ALERT Published to {config['mqtt']['alert_topic']}: {alert_payload}")
+# # Publish Critical Alert
+# def publish_alert(metric, value, location):
+#     alert_payload = {
+#         "metric": metric,
+#         "value": value,
+#         "location": location,
+#         "timestamp": int(time.time()),
+#         "message": f"Critical {metric} level detected at {location}: {value}",
+#         "details": {
+#             "component": metric,
+#             "location": location,
+#             "threshold_exceeded": THRESHOLDS[metric],
+#             "current_value": value
+#         }
+#     }
+#     client.publish(config['mqtt']['alert_topic'], json.dumps(alert_payload))
+#     #print(f"ALERT Published to {config['mqtt']['alert_topic']}: {alert_payload}")
 
 # Main Function to Simulate and Publish Data
 def publish_sensor_data():
@@ -88,9 +88,9 @@ def publish_sensor_data():
 
                 print(f"Published to {topic}: {payload}")
 
-                # Check for critical levels
-                if metric in THRESHOLDS and value > THRESHOLDS[metric]:
-                    publish_alert(metric, value, location)
+                # # Check for critical levels
+                # if metric in THRESHOLDS and value > THRESHOLDS[metric]:
+                #     publish_alert(metric, value, location)
         
         time.sleep(int(config['mqtt']['publish_interval']))
 

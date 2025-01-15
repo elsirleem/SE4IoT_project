@@ -27,11 +27,6 @@ Run the following command to start all services (Traffic Simulator, InfluxDB, Te
 docker compose up --build
 ```
 
-To completely clean up when stopping (removes containers, local images, and volumes):
-```bash
-docker compose down --volumes --rmi local
-```
-
 ### Step 3: Access the Services
 - **Grafana**: [http://localhost:3000](http://localhost:3000)
   - Default Username: `admin`
@@ -40,6 +35,12 @@ docker compose down --volumes --rmi local
   - Default Username: `admin`
   - Default Password: `admin123`
 - **Node-RED**: [http://localhost:1880](http://localhost:1880)
+
+### Step 4: Stop Docker Services
+To completely clean up when stopping (removes containers, local images, and volumes):
+```bash
+docker compose down --volumes --rmi local
+```
 
 ## Project Structure
 ```
