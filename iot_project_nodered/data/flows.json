@@ -39,6 +39,11 @@
         "sessionExpiry": ""
     },
     {
+        "id": "139b21b617bd11c9",
+        "type": "node-red-contrib-whatsapp-cmb-account",
+        "name": "Vinay"
+    },
+    {
         "id": "a2048b34bbda8f7b",
         "type": "mqtt in",
         "z": "c6edea553c6666e4",
@@ -69,8 +74,8 @@
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
+        "complete": "payload",
+        "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
         "x": 660,
@@ -82,19 +87,20 @@
         "type": "function",
         "z": "c6edea553c6666e4",
         "name": "function 1",
-        "func": "const thresholds = {\n    traffic_density: 80,\n    average_speed: 25,\n    co2: 400,\n    pm25: 35,\n    pm10: 50,\n    decibel_level: 85,\n    co: 3.5\n};\n\nconst metric = msg.topic.split(\"/\").pop(); // Extract the metric from the topic\nconst value = msg.payload[metric];\n\nif (thresholds[metric] !== undefined && value > thresholds[metric]) {\n    msg.alert = `Critical ${metric} level detected: ${value}`;\n    return msg; // Forward message for alerts\n}\n\nreturn null; // Ignore if no threshold is exceeded\n",
+        "func": "const thresholds = {\n    traffic_density: 99,\n    average_speed: 59,\n    co2: 499,\n    pm25: 49,\n    pm10: 69,\n    decibel_level: 89,\n    co: 4.9\n};\n\nconst metric = msg.topic.split(\"/\").pop(); // Extract the metric from the topic\nconst value = msg.payload[metric];\n\nif (thresholds[metric] !== undefined && value > thresholds[metric]) {\n    msg.alert = `Critical ${metric} level detected: ${value}`;\n    return msg; // Forward message for alerts\n}\n\nreturn null; // Ignore if no threshold is exceeded\n",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 380,
-        "y": 400,
+        "x": 340,
+        "y": 520,
         "wires": [
             [
                 "32098966c7d5222e",
-                "e0e3fc61425e9c32"
+                "e0e3fc61425e9c32",
+                "399a354ae62f791c"
             ]
         ]
     },
@@ -103,7 +109,7 @@
         "type": "mqtt out",
         "z": "c6edea553c6666e4",
         "name": "",
-        "topic": "smart_city/test_alerts",
+        "topic": "smart_city/alerts",
         "qos": "0",
         "retain": "",
         "respTopic": "",
@@ -112,7 +118,7 @@
         "correl": "",
         "expiry": "",
         "broker": "ab8bd6a7f68ee52f",
-        "x": 640,
+        "x": 620,
         "y": 440,
         "wires": []
     },
@@ -121,16 +127,36 @@
         "type": "debug",
         "z": "c6edea553c6666e4",
         "name": "display_alerts",
-        "active": false,
+        "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
+        "complete": "true",
+        "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 580,
-        "y": 560,
+        "x": 620,
+        "y": 520,
         "wires": []
+    },
+    {
+        "id": "399a354ae62f791c",
+        "type": "node-red-contrib-whatsapp-cmb-send-message",
+        "z": "c6edea553c6666e4",
+        "name": "Notify",
+        "credtype": "account",
+        "account": "139b21b617bd11c9",
+        "text": "alert",
+        "phonenumbervalue": "",
+        "apikeyvalue": "",
+        "apikeyinputtypemessage": "msg",
+        "phonenumberinputtypemessage": "msg",
+        "inputtypemessage": "msg",
+        "rejectssl": false,
+        "x": 590,
+        "y": 600,
+        "wires": [
+            []
+        ]
     }
 ]

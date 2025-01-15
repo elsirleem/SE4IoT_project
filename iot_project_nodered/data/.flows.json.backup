@@ -39,21 +39,6 @@
         "sessionExpiry": ""
     },
     {
-        "id": "ea5932f09d848fc6",
-        "type": "influxdb",
-        "hostname": "127.0.0.1",
-        "port": 8086,
-        "protocol": "http",
-        "database": "database",
-        "name": "influxdb",
-        "usetls": false,
-        "tls": "",
-        "influxdbVersion": "2.0",
-        "url": "http://influxdb:8086",
-        "timeout": 10,
-        "rejectUnauthorized": true
-    },
-    {
         "id": "a2048b34bbda8f7b",
         "type": "mqtt in",
         "z": "c6edea553c6666e4",
