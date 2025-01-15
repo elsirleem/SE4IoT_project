@@ -71,8 +71,7 @@
         "wires": [
             [
                 "a753add5c0138e5e",
-                "4f0e7b5b3fc4a498",
-                "55117caf3633c36a"
+                "4f0e7b5b3fc4a498"
             ]
         ]
     },
@@ -81,12 +80,12 @@
         "type": "debug",
         "z": "c6edea553c6666e4",
         "name": "display_sensor_data",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
+        "complete": "true",
+        "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
         "x": 660,
@@ -98,7 +97,7 @@
         "type": "function",
         "z": "c6edea553c6666e4",
         "name": "function 1",
-        "func": "const thresholds = {\n    traffic_density: 80,\n    average_speed: 25,\n    co2: 400,\n    pm25: 35,\n    pm10: 50,\n    decibel_level: 85,\n    co: 3.5\n};\n\nconst metric = msg.topic.split(\"/\").pop(); // Extract the metric from the topic\nconst value = msg.payload.value;\n\nif (thresholds[metric] !== undefined && value > thresholds[metric]) {\n    msg.alert = `Critical ${metric} level detected: ${value}`;\n    return msg; // Forward message for alerts\n}\n\nreturn null; // Ignore if no threshold is exceeded\n",
+        "func": "const thresholds = {\n    traffic_density: 80,\n    average_speed: 25,\n    co2: 400,\n    pm25: 35,\n    pm10: 50,\n    decibel_level: 85,\n    co: 3.5\n};\n\nconst metric = msg.topic.split(\"/\").pop(); // Extract the metric from the topic\nconst value = msg.payload[metric];\n\nif (thresholds[metric] !== undefined && value > thresholds[metric]) {\n    msg.alert = `Critical ${metric} level detected: ${value}`;\n    return msg; // Forward message for alerts\n}\n\nreturn null; // Ignore if no threshold is exceeded\n",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -119,7 +118,7 @@
         "type": "mqtt out",
         "z": "c6edea553c6666e4",
         "name": "",
-        "topic": "/smart_city/alerts",
+        "topic": "smart_city/test_alerts",
         "qos": "0",
         "retain": "",
         "respTopic": "",
@@ -128,7 +127,7 @@
         "correl": "",
         "expiry": "",
         "broker": "ab8bd6a7f68ee52f",
-        "x": 630,
+        "x": 640,
         "y": 440,
         "wires": []
     },
@@ -137,7 +136,7 @@
         "type": "debug",
         "z": "c6edea553c6666e4",
         "name": "display_alerts",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -147,24 +146,6 @@
         "statusType": "auto",
         "x": 580,
         "y": 560,
-        "wires": []
-    },
-    {
-        "id": "55117caf3633c36a",
-        "type": "influxdb out",
-        "z": "c6edea553c6666e4",
-        "influxdb": "ea5932f09d848fc6",
-        "name": "influxdb",
-        "measurement": "traffic_data",
-        "precision": "",
-        "retentionPolicy": "",
-        "database": "database",
-        "precisionV18FluxV20": "ms",
-        "retentionPolicyV18Flux": "",
-        "org": "iot_project",
-        "bucket": "smart_city",
-        "x": 600,
-        "y": 120,
         "wires": []
     }
 ]
