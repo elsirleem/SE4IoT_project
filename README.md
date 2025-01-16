@@ -1,7 +1,7 @@
-# IoT Project: Smart Traffic Management System
+# IoT Project: Smart Traffic Monitoring System
 
 ## Overview
-This project is a simulated IoT system designed to manage urban traffic and monitor environmental conditions. It integrates components such as sensors, middleware, databases, and dashboards to optimize traffic flow and reduce environmental impact.
+This project is a simulated IoT system designed to monitor urban traffic and environmental conditions. It integrates components such as sensors, middleware, databases, and dashboards to provide real-time insights, helping users observe traffic patterns and assess environmental impact.
 
 ## Features
 - Simulates environmental metrics like traffic density, speed, CO2, PM2.5, PM10, and noise levels.
