@@ -17,8 +17,8 @@ This project is a simulated IoT system designed to monitor urban traffic and env
 
 ### Step 1: Clone the Repository
 ```bash
-git clone <repository_url>
-cd <repository_name>
+git clone https://github.com/elsirleem/SE4IoT_project.git
+cd SE4IoT_project
 ```
 
 ### Step 2: Start Docker Services
@@ -45,15 +45,16 @@ docker compose down --volumes --rmi local
 ## Project Structure
 ```
 .
-├── compose.yml              # Docker Compose configuration
-├── traffic_simulator/       # Traffic simulation service
-│   ├── config.ini          # Simulation configuration
-│   ├── Dockerfile          # Python simulation container setup
-│   └── python_simulation.py # Main simulation script
-├── telegraf/               # Telegraf service
-│   └── telegraf.conf       # Telegraf configuration
-└── grafana/                # Grafana service
-    └── grafana.db          # Grafana database with dashboards
+├── traffic_simulator/            # Traffic simulation service
+│   ├── config.ini               # Simulation configuration
+│   ├── Dockerfile              # Python simulation container setup
+│   ├── requirements.txt        # Python dependencies
+│   └── python_simulation.py    # Main simulation script
+├── iot_project_nodered/        # Node-RED data directory
+├── iot_project_mosquitto_config/ # Mosquitto MQTT broker config
+├── mosquitto/                   # MQTT broker data directory
+├── telegraf/                   # Telegraf service for data collection
+└── grafana/                    # Grafana data directory
 ```
 
 ## Configuration
